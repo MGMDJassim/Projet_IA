@@ -1,3 +1,4 @@
+import numpy as no
 import random
 from ville import Ville
 new_pop = []
@@ -12,10 +13,16 @@ def initialisation(taille, start, end):
     for i in range(taille):
         individu = villes[:]
         random.shuffle(individu)
-        individu.insert(0, start)  # Ajouter le point de départ au début
-        individu.append(end)       # Ajouter la destination à la fin
+        individu.insert(0, start) 
+        individu.append(end)       
         new_pop.append(individu)
     return new_pop
+
+def distance(ville1, ville2):
+    pass
+
+def distance_total():
+    pass
 
 def selection(new_pop):
     pass
@@ -38,7 +45,7 @@ def algo_gen():
         enfant = mutation(enfant)
         pop = formation(pop, enfant)
 
-taille = 10
+taille = 8
 
 initailisation_des_villes(taille)
 
@@ -52,7 +59,9 @@ for i, individu in enumerate(new_pop):
     print(f"Individu {i + 1}:")
     for ville in individu:
         print(ville)
-    print()  # L
+    print() 
+
+
 """
 Algo : 
 new_pop <- ensemble aléatoie d'individus
