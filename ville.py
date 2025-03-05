@@ -8,9 +8,6 @@ class Ville:
     def __str__(self):
         return f"({self.x}, {self.y})"
     
-
-    def distance (self, ville):
-        dx = abs(self.x - ville.x)
-        dy = abs(self.y - ville.y)
-        distance = np.
+    def distance(self, other):
+        return np.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 

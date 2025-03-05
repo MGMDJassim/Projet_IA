@@ -9,23 +9,22 @@ def initailisation_des_villes(nbr_villes):
         villes.append(Ville(random.randint(0, 100), random.randint(0, 100)))
     return villes
 
-def initialisation(taille, start, end):
+def initialisation(taille):
     for i in range(taille):
         individu = villes[:]
-        random.shuffle(individu)
-        individu.insert(0, start) 
-        individu.append(end)       
+        random.shuffle(individu)    
         new_pop.append(individu)
     return new_pop
 
-def distance(ville1, ville2):
-    pass
-
-def distance_total():
-    pass
-
+def evaluation(individu):
+    distance = 0
+    for i in range(len(individu) - 1):
+        distance += individu[i].distance(individu[i + 1])
+    return distance
+    
 def selection(new_pop):
     pass
+
 
 def recombinasion(parent):
     pass
@@ -49,17 +48,7 @@ taille = 8
 
 initailisation_des_villes(taille)
 
-point_de_depart = Ville(0, 0)
-destination = Ville(100, 100)
-initialisation(taille, point_de_depart, destination)
-
-print(villes)
-
-for i, individu in enumerate(new_pop):
-    print(f"Individu {i + 1}:")
-    for ville in individu:
-        print(ville)
-    print() 
+initialisation(taille)
 
 
 """
