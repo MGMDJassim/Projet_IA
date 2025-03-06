@@ -10,4 +10,3 @@ class Ville:
     
     def distance(self, other):
         return np.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
-
