@@ -31,7 +31,14 @@ def selection(new_pop):
 
 def recombinaison(parents):
     enfant = []
-    
+    for i in range(0, len(parents) - 1, 2):
+        parent1 = parents[i]
+        parent2 = parents[i + 1]
+        cut = len(parent1) // 2
+        child1 = parent1[:cut] + [city for city in parent2 if city not in parent1[:cut]]
+        child2 = parent2[:cut] + [city for city in parent1 if city not in parent2[:cut]]
+        enfant.append(child1)
+        enfant.append(child2)
     return enfant
 
 def mutation(enfant):
@@ -62,7 +69,6 @@ def algo_gen(max_iterations=5):
         enfant = mutation(enfant)
         new_pop = formation(new_pop, enfant)
         iteration += 1
-
 initailisation_des_villes(10)
 
 
