@@ -6,7 +6,7 @@ villes = []
 def initialisation_des_villes(nbr_villes):
     """ Initialise une liste de villes avec des coordonnées aléatoires. """
     global villes
-    villes = [Ville(random.randint(0, 400), random.randint(0, 400)) for _ in range(nbr_villes)]
+    villes = [Ville(random.randint(0, 100), random.randint(0, 100)) for _ in range(nbr_villes)]
 
 def initialisation(taille):
     """ Génère une population initiale de chemins (permutations de villes). """
@@ -31,7 +31,7 @@ def recombinaison(parent1, parent2):
     
     return enfant
 
-def mutation(enfant, taux_mutation=0.3):  # Augmenter le taux de mutation à 30%
+def mutation(enfant, taux_mutation=0.05):
     """ Applique une mutation par échange de deux villes. """
     if random.random() < taux_mutation:
         i, j = random.sample(range(len(enfant)), 2)
@@ -51,6 +51,9 @@ def algo_gen(taille_population, generations):
     if not population:
         raise RuntimeError("Erreur : la population initiale est vide !")
 
+    # Affichage du meilleur itinéraire de la première génération
+    afficher_meilleur_itineraire(population, "première génération")
+
     for generation in range(generations):
         parents = selection(population)
 
@@ -66,9 +69,8 @@ def algo_gen(taille_population, generations):
 
         population = formation(population, enfants)
 
-        # Afficher le meilleur itinéraire de la génération actuelle
-        print(f"\n=== Génération {generation + 1} ===")
-        afficher_meilleur_itineraire(population, f"génération {generation + 1}")
+    # Affichage du meilleur itinéraire de la dernière génération
+    afficher_meilleur_itineraire(population, "dernière génération")
 
     return population
 
@@ -84,23 +86,12 @@ def afficher_meilleur_itineraire(population, etape):
     # Affichage du meilleur itinéraire
     meilleur_individu = population_triee[0]
     print(f"\n=== Meilleur itinéraire {etape} ===")
-    for ville in meilleur_individu:
-        print(f"Ville ({ville.x}, {ville.y})")
 
     print(f"Distance du meilleur itinéraire {etape} :", calculer_distance(meilleur_individu))
 
 # Lancement de l'algorithme
-taille = 10
+taille = 28
 initialisation_des_villes(taille)
 
-# Création de la population initiale
-population_initiale = initialisation(100)
-
-# Affichage des distances initiales
-afficher_meilleur_itineraire(population_initiale, "initiale")
-
 # Exécution de l'algorithme génétique
-population_finale = algo_gen(100, 100)
-
-# Affichage des distances finales
-afficher_meilleur_itineraire(population_finale, "finale")
+population_finale = algo_gen(100, 6)
