@@ -18,15 +18,24 @@ def initialisation(taille):
     return new_pop
 
 def total_distance(route):
-    return sum([route[i].distance(route[(i + 1) % len(route)]) for i in range(len(route))])
+    distance = 0
+    for i in range(len(route) - 1):
+        distance += route[i].distance(route[i + 1])
+    distance += route[-1].distance(route[0])
+    return distance
 
 def evaluation(individus):
-    distances = [(i, total_distance(individu)) for i, individu in enumerate(individus)]
-    return sorted(distances, key=lambda x: x[1])
+    evaluated = []
+    for i in range(len(individus)):
+        evaluated.append((i, total_distance(individus[i])))
+    evaluated.sort(key=lambda x: x[1])
+    return evaluated
 
 def selection(new_pop):
     evaluated = evaluation(new_pop)
-    pop_select = [new_pop[evaluated[i][0]] for i in range(len(evaluated) // 2)]
+    pop_select = []
+    for i in range(len(new_pop) // 2):
+        pop_select.append(new_pop[evaluated[i][0]])
     return pop_select
 
 def recombinaison(parents):
@@ -54,33 +63,36 @@ def mutation(enfant):
 
 def formation(pop, enfant):
     nouvelle_pop = []
-    for i in range(len(pop)):
-        nouvelle_pop.append(pop[i])
-    for i in range(len(enfant)):
-        nouvelle_pop.append(enfant[i])
+    point = len(pop) // 2
+    for e in enfant:
+        if e not in pop:
+            nouvelle_pop.append(e)
+    nouvelle_pop = nouvelle_pop + pop[:point]
+    random.shuffle(nouvelle_pop)
     return nouvelle_pop
 
-def algo_gen(max_iterations=5):
+def algo_gen():
+    initailisation_des_villes(10)
     new_pop = initialisation(10)
-    iteration = 0
-    while iteration < max_iterations:
+    while True:
         parents = selection(new_pop)
         enfant = recombinaison(parents)
         enfant = mutation(enfant)
         new_pop = formation(new_pop, enfant)
-        iteration += 1
-initailisation_des_villes(10)
+
 
 
 # Test
 algo_gen()
+
+
 
 """
 Algo : 
 new_pop <- ensemble aléatoire d'individus
 Répéter :
 | Parent <- selection (pop)
-| enfant <- recombinaison(parents)
+| enfant <- recombinaison(Parent)
 | enfant <- mutation(enfant)
 | pop <- Formation (pop, enfant)
 tant qu'on améliore la valeur des individus
